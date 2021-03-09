@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import lombok.extern.log4j.Log4j2;
 import uz.akfa.app.model.User;
 import uz.akfa.app.service.UserServcie;
+import uz.akfa.app.service.UserServicePagIngAndSorting;
 
 @RestController
 @Log4j2
@@ -16,6 +17,8 @@ public class MyController {
 
     @Autowired
     private UserServcie servcie;
+    @Autowired
+    private UserServicePagIngAndSorting pageService;
 
     @PostMapping("/add_user")
     public String addUser(@RequestBody User user) {
@@ -49,5 +52,11 @@ public class MyController {
     public List<User> getByName(@RequestParam("email") String email) {
         return servcie.findByEmail(email);
 
+    }
+
+    @GetMapping("/getAllPages")
+    public List<User> getAllPages(@RequestParam("start") int start, @RequestParam("size") int size,
+            @RequestParam("id") String id) {
+               return pageService.getAllUser(start, size, id);
     }
 }
